@@ -1,59 +1,65 @@
-var canvas;
-var block1,block2,block3,block4;
-var ball, edges;
-var music;
+var o2, o1;
 
-function preload(){
-    music = loadSound("music.mp3");
-}
-
-
-function setup(){
-    canvas = createCanvas(800,600);
-
-    block1 = createSprite(0,580,360,30);
-    block1.shapeColor = "purple";
-
-    block2 = createSprite(295,580,200,30);
-    block2.shapeColor =  "cyan";
-
-    block3 = createSprite(515,580,200,30);
-    block3.shapeColor ="pink";
-
-    block4 = createSprite(740,580,220,30);
-    block4.shapeColor = "blue";
-
-    ball = createSprite(100,100, 40,40);
-    ball.shapeColor = "red";
-    ball.velocityX = 4;
-    ball.velocityY = 9;
-
+function setup() {
+  createCanvas(1200,800);
+  o2 = createSprite(600, 400, 50, 80);
+  o2.shapeColor = "green";
+  o2.debug = true;
+  o1 = createSprite(400,200,80,30);
+  o1.shapeColor = "green";
+  o1.debug = true;
+  o1.velocityY=5;
+  o1.velocityX=5;
+  o2.velocityY=-5;
+  o2.velocityX=-5;
 }
 
 function draw() {
-    background("white");
-    edges=createEdgeSprites();
-    ball.bounceOff(edges);
-
-    if(block1.isTouching(ball) && ball.bounceOff(block1)){
-        ball.shapeColor ="purple";
-        music.play();
-    }
-
-    if(block2.isTouching(ball)&& ball.bounceOff(block2)){
-        ball.shapeColor = "cyan";
-        // ball.velocityX = 0;
-        // ball.velocityY = 0;
-        music.stop();
-    }
-
-    if(block3.isTouching(ball) && ball.bounceOff(block3)){
-        ball.shapeColor = "pink";
-    }
-
-    if(block4.isTouching(ball) && ball.bounceOff(block4)){
-        ball.shapeColor ="blue";
-    }
-
-    drawSprites();
+  background(0,0,0);  
+  //o1.x = World.mouseX;
+  //o1.y = World.mouseY;
+ 
+  
+  drawSprites();
+  var s= isTouching(o1,o2);
+  var s1=  bounceOff(o1,o2)
 }
+
+function isTouching(o1,o2)
+{
+  if (o1.x - o2.x < o2.width/2 + o1.width/2
+    && o2.x - o1.x < o2.width/2 + o1.width/2
+    && o1.y - o2.y < o2.height/2 + o1.height/2
+    && o2.y - o1.y < o2.height/2 + o1.height/2) {
+  o1.shapeColor = "red";
+  o2.shapeColor = "red";
+  return true;
+}
+else {
+  o1.shapeColor = "green";
+  o2.shapeColor = "green";
+  return false;
+}}
+function bounceOff(o1,o2)
+{
+  if (o1.x - o2.x < o2.width/2 + o1.width/2
+    && o2.x - o1.x < o2.width/2 + o1.width/2
+   ) {
+  o1.velocityX = o1.velocityX*-1;
+  console.log(o1.velocityX);
+ // o1.velocityY = o1.velocityY*-1;
+  o2.velocityX = o2.velocityX*-1;
+  console.log(o2.velocityX);
+  // o1.velocityY = o1.velocityY*-1;
+  // o2.velocityY = o2.velocityY*-1;
+ // o2.velocityY = o2.velocityY*-1;
+  return true;
+}
+ if( o1.y - o2.y < o2.height/2 + o1.height/2
+  && o2.y - o1.y < o2.height/2 + o1.height/2) {
+
+    o1.velocityY = o1.velocityY*-1;
+    o2.velocityY = o2.velocityY*-1;
+  return false;
+}
+  }
